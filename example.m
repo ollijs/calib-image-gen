@@ -13,7 +13,7 @@ f_m = 0.006; % Focal length in meters
 pixelsize_m = 5.86*10^-6; % Pixel size in meters
 fpix = f_m/pixelsize_m; % Focal length in pixels
 
-imageSize = [1920 1080];
+imageSize = [1920 1080]/2;
 
 
 % Define camera poses turning around the x axis of the pattern
@@ -23,8 +23,8 @@ y_ang = zeros(size(x_ang));
 z_ang = zeros(size(x_ang));
 
 % All positions the same, 1 meter away in z
-x = zeros(size(x_ang));
-y = zeros(size(x_ang));
+x = zeros(size(x_ang))-0.25;
+y = zeros(size(x_ang))-0.2;
 z = ones(size(x_ang));
 
 patternPositions = cat(1, x, y, z)
