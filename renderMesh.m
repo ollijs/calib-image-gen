@@ -99,10 +99,11 @@ drawnow;
 %img = frame.cdata;
 %f.GraphicsSmoothing = 'off';
 f.Renderer = 'opengl';
-img = print(f, '-RGBImage', '-r0');
+dpiString = ['-r' num2str(get(groot,"ScreenPixelsPerInch"))];
+img = print(f, '-RGBImage', dpiString);
 
 if any(size(img(:, :, 1)) ~= cameraParam.ImageSize)
-    error('Matlab did something strange with the rendering, result image has incorrect size');
+   error('Matlab did something strange with the rendering, result image has incorrect size');
 end
 
 %if ~renderCanvasVisible 

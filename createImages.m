@@ -56,6 +56,7 @@ if p.Results.showVisualization
     subplot(1, 3, 1);
     scatter3(0, 0, 0); hold on;
     plotScene(mesh, drawScale);
+    drawnow
 end
 
 if p.Results.saveToDisk

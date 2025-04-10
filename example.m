@@ -52,6 +52,8 @@ for i = 1:size(images, 4)
     detectedPoses(:, i) = [t, ang]';
 end
 
-requestedPoses = cat(1, patternPositions, patternAngles)
-detectedPoses
+requestedPoses = cat(1, patternPositions, patternAngles);
+
+display(requestedPoses)
+display(detectedPoses)
 
