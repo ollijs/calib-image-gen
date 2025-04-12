@@ -84,7 +84,9 @@ else
     p = plotMesh(mesh, ax); %#ok<NASGU>
     colormap(ax, 'gray');
     
-    coordinateAxisScale = 0.5;
+    dists = (max(mesh.vertices)-min(mesh.vertices));
+    coordinateAxisScale = min(dists(dists>0));
+
     if axisVisible
         hold on;
         scatter3(0, 0, 0, 100, 'ro', 'filled');

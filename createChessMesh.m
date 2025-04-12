@@ -31,11 +31,17 @@ mesh.vertices = worldPoints;
 mesh.faces = allFaces;
 mesh.colors = colors;
 
+
+% The ground truth points that are extracted from the created image 
+% when used for analysis. The edge-most points are ignored by
+% chessboard detection
+mesh.worldPoints = worldPoints;
 XX = X;
 XX([1 end], :) = NaN;
 XX(:, [1 end]) = NaN;
 edgemask = isnan(XX(:));
-mesh.edgemask = edgemask;
+
+mesh.worldPoints(edgemask, :) = [];
 
 end
 

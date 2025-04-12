@@ -1,4 +1,4 @@
-function [camParam, images, allProjectedVertices] = createImages(camParam, mesh, varargin)
+function [camParam, images, allProjectedVertices] = renderImages(camParam, mesh, varargin)
 %GENERATECHESSIMAGES Summary of this function goes here
 %   imageSize: image dimensions as [width, height]
 %   focalLength: focal length in pixels, scalar
@@ -36,9 +36,9 @@ outputProjectedVertices = (nargout == 3);
 
     
 boardPose = p.Results.boardPose;
-boardR = rotationVectorToMatrix( deg2rad(boardPose(4:6)) );
+boardR = rotvec2mat3d( deg2rad(boardPose(4:6)) );
 boardPos = boardPose(1:3);
-mesh.vertices = mesh.vertices*boardR+boardPos';
+mesh.vertices = (boardR*mesh.vertices'+boardPos)';
 
 folderName = p.Results.folderName;
 prefix = p.Results.imagePrefix;
@@ -67,7 +67,7 @@ for pInd = 1:numImages
     
     %%
     if numImages > 1
-        disp(pInd);
+        display([ num2str(pInd) ' / ' num2str(numImages)]);
     end
     
     extPos = camParam.TranslationVectors(pInd, :);
