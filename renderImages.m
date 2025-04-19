@@ -20,6 +20,7 @@ p.addParameter('validateCameraParameters', false, @islogical);
 p.addParameter('showRenderCanvas', false, @islogical);
 p.addParameter('showVisualization', false, @islogical);
 
+p.addParameter('discardPartiallyOutsideView', true, @islogical);
 p.addParameter('saveToDisk', false, @ischar);
 p.addParameter('folderName', 'synthChess', @ischar);
 p.addParameter('imagePrefix', 'calib', @ischar);
@@ -46,12 +47,14 @@ format = p.Results.imageFormat;
 
 numImages = camParam.NumPatterns;
 
+images = uint8([]);
+allProjectedVertices = [];
 
 
 drawScale = norm(mesh.vertices(1, :)-mesh.vertices(2, :));
 
 if p.Results.showVisualization
-    f = figure(49999);
+    f = figure;
     clf;
     subplot(1, 3, 1);
     scatter3(0, 0, 0); hold on;
@@ -82,6 +85,13 @@ for pInd = 1:numImages
     
     if outputProjectedVertices
         [~, projectedVertices] = renderMesh(mesh, camParam, pos, R, p.Results.drawAxis, p.Results.showRenderCanvas, p.Results.backgroundColor);
+        
+        if p.Results.discardPartiallyOutsideView
+            if size(projectedVertices, 2) ~= size(mesh.vertices, 1)
+                warning(['Discarding image ' num2str(pInd) ', (partially) outside image'])
+                continue;
+            end
+        end
         allProjectedVertices(:, :, pInd) = projectedVertices'; %#ok<*AGROW>
         %allProjectedVertices{pInd} = projectedVertices'; %#ok<*AGROW>
     end

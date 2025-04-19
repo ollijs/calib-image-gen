@@ -14,6 +14,9 @@ imageHeight = cameraParam.ImageSize(1);
 fp = cameraParam.FocalLength(sideInd);
 fov = 2*atand(shortsideLength/(2*fp));
 
+
+oldCanvases = findall(0, 'Type', 'figure', 'Name', 'RenderCanvas');
+close(oldCanvases)
 f = figure('Name', 'RenderCanvas', 'Visible', renderCanvasVisible); clf;
 
 
@@ -108,8 +111,9 @@ if any(size(img(:, :, 1)) ~= cameraParam.ImageSize)
    error('Matlab did something strange with the rendering, result image has incorrect size');
 end
 
-%if ~renderCanvasVisible 
+if ~renderCanvasVisible 
     close(f);
-%end
+end
+
 end
 
