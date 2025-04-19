@@ -13,7 +13,8 @@ p.parse(varargin{:});
 if size(camRotations, 3) == 1
     % Given rotations are angles, convert to rotation matrices
     for pInd = 1:size(camRotations, 2)
-        Rs(:, :, pInd) = rotationVectorToMatrix( deg2rad(camRotations(:, pInd)) ); %#ok<AGROW>
+        %Rs(:, :, pInd) = rotationVectorToMatrix( deg2rad(camRotations(:, pInd)) ); %#ok<AGROW>
+        Rs(:, :, pInd) = eul2rotm( deg2rad(camRotations(:, pInd))', 'XYZ'); %#ok<AGROW>
     end
 else
     % Given rotations are already rotation matrices
@@ -46,12 +47,15 @@ for pInd = 1:size(camPositions, 2)
         extPos = pos;
     else
         % Convert camera positions to pattern poses
-        [extR, extPos] = cameraPoseToExtrinsics(R, pos);  
+        %[extR, extPos] = cameraPoseToExtrinsics(R, pos);  
+        [extR, extPos] = pose2extr(R, pos);  
+        
     end
     
     
     
-    extrinsics.ang(pInd, :) = rotationMatrixToVector(extR);
+    extrinsics.ang(pInd, :) = rotmat2vec3d(extR);
+    %extrinsics.ang(pInd, :) = rotationMatrixToVector(extR);
     extrinsics.pos(pInd, :) = extPos;
         
     %camRotations(:, :, pInd) = R;
