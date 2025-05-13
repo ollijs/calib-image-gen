@@ -9,10 +9,14 @@ mesh = createChessMesh(patternDim, squareSize);
 %%
 % Determine focal length in pixels
 f_m = 0.006; % Focal length in meters
-pixelsize_m = 5.86*10^-6; % Pixel size in meters
+% Example specs from Sony IMX174/IMX249
+pixelsize_m = 5.86*10^-6; % Pixel size in meters 
+sensorSize = [1920 1200]; % Sensor size in pixels
+
 fpix = f_m/pixelsize_m; % Focal length in pixels
 
-imageSize = [1920 1080]/2;
+disp(['Field of View is ' num2str(computeFoV(sensorSize, fpix)) ...
+    ' degrees (hor ver)'])
 
 
 % Define camera poses turning around the x axis of the pattern
@@ -30,7 +34,7 @@ patternPositions = cat(1, x, y, z)
 patternAngles = cat(1, x_ang, y_ang, z_ang)
 
 % Populate the camera parameters object with requested pattern poses
-camParam = createCameraParameters(imageSize, fpix, patternPositions, patternAngles,...
+camParam = createCameraParameters(sensorSize, fpix, patternPositions, patternAngles,...
     'specifyTargetPoses', true);
 %%
 disp("Rendering images")

@@ -51,7 +51,8 @@ images = uint8([]);
 allProjectedVertices = [];
 
 
-drawScale = norm(mesh.vertices(1, :)-mesh.vertices(2, :));
+dists = (max(mesh.vertices)-min(mesh.vertices));
+drawScale = min(dists(dists>0));
 
 if p.Results.showVisualization
     f = figure;

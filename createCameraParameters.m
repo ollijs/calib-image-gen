@@ -48,7 +48,9 @@ for pInd = 1:size(camPositions, 2)
     else
         % Convert camera positions to pattern poses
         %[extR, extPos] = cameraPoseToExtrinsics(R, pos);  
-        [extR, extPos] = pose2extr(R, pos);  
+        extr = pose2extr(rigidtform3d(R, pos'));
+        extR = extr.R;
+        extPos = extr.Translation;
         
     end
     
